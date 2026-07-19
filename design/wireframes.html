@@ -1,0 +1,580 @@
+<title>Bolsi — Wireframes de diseño</title>
+<style>
+  :root{
+    color-scheme: light;
+    --page:#F7F6FB; --surface:#FFFFFF; --surface-2:#FBFAFD;
+    --text-1:#16151F; --text-2:#5B5A6B; --muted:#93909F;
+    --border: rgba(22,21,31,0.09); --grid:#ECEAF4;
+    --brand:#5B4FE9; --brand-strong:#4438CE; --brand-soft:#EDEBFE; --brand-soft-text:#4438CE;
+    --premium:#00B0A2; --premium-soft:#DFF7F4; --premium-soft-text:#00786E;
+    --good:#17A34A; --good-soft:#E6F7ED;
+    --warn:#F59E0B; --warn-soft:#FEF3DC;
+    --crit:#E5484D; --crit-soft:#FDE7E7;
+    --cat-comida:#EB6834; --cat-ropa:#E15C93; --cat-calzado:#4A3AA7; --cat-transporte:#2A78D6;
+    --cat-salud:#1BAF7A; --cat-entre:#D18E00; --cat-inversion:#1A8F3D; --cat-deudas:#D5433F; --cat-otros:#8B899B;
+    --shadow: 0 1px 2px rgba(22,21,31,0.04), 0 8px 24px -8px rgba(22,21,31,0.14);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --page:#100F19; --surface:#1B1A29; --surface-2:#211F30;
+      --text-1:#F5F4FB; --text-2:#B9B7C9; --muted:#847F97;
+      --border: rgba(245,244,251,0.10); --grid:#2A2839;
+      --brand:#8B80FF; --brand-strong:#A79CFF; --brand-soft:#2A2650; --brand-soft-text:#C1B8FF;
+      --premium:#2FD1C2; --premium-soft:#0E2E2C; --premium-soft-text:#5CE6D8;
+      --good:#3DC673; --good-soft:#123321;
+      --warn:#FBBF3F; --warn-soft:#3A2B0C;
+      --crit:#FF6B6E; --crit-soft:#3A1414;
+      --cat-comida:#FF8352; --cat-ropa:#FF87B5; --cat-calzado:#9084E8; --cat-transporte:#5C9EEE;
+      --cat-salud:#3FCB97; --cat-entre:#F0AD2E; --cat-inversion:#3FCB70; --cat-deudas:#F17672; --cat-otros:#A6A3B8;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -8px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --page:#100F19; --surface:#1B1A29; --surface-2:#211F30;
+    --text-1:#F5F4FB; --text-2:#B9B7C9; --muted:#847F97;
+    --border: rgba(245,244,251,0.10); --grid:#2A2839;
+    --brand:#8B80FF; --brand-strong:#A79CFF; --brand-soft:#2A2650; --brand-soft-text:#C1B8FF;
+    --premium:#2FD1C2; --premium-soft:#0E2E2C; --premium-soft-text:#5CE6D8;
+    --good:#3DC673; --good-soft:#123321;
+    --warn:#FBBF3F; --warn-soft:#3A2B0C;
+    --crit:#FF6B6E; --crit-soft:#3A1414;
+    --cat-comida:#FF8352; --cat-ropa:#FF87B5; --cat-calzado:#9084E8; --cat-transporte:#5C9EEE;
+    --cat-salud:#3FCB97; --cat-entre:#F0AD2E; --cat-inversion:#3FCB70; --cat-deudas:#F17672; --cat-otros:#A6A3B8;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -8px rgba(0,0,0,0.5);
+  }
+  :root[data-theme="light"]{
+    color-scheme: light;
+    --page:#F7F6FB; --surface:#FFFFFF; --surface-2:#FBFAFD;
+    --text-1:#16151F; --text-2:#5B5A6B; --muted:#93909F;
+    --border: rgba(22,21,31,0.09); --grid:#ECEAF4;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--page); color:var(--text-1);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1360px;margin:0 auto;padding:28px 24px 80px;}
+
+  /* ---------- Header / legend ---------- */
+  .hero{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;}
+  .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand-strong);}
+  h1{font-size:clamp(22px,3vw,30px);margin:0;letter-spacing:-0.01em;text-wrap:balance;}
+  .hero p{margin:2px 0 0;color:var(--text-2);font-size:14.5px;max-width:680px;line-height:1.5;}
+
+  .legend-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:18px 0 26px;}
+  .legend-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);}
+  .legend-card h3{margin:0 0 8px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;}
+  .semrow{display:flex;align-items:center;gap:9px;font-size:13px;padding:4px 0;color:var(--text-2);}
+  .dot{width:10px;height:10px;border-radius:50%;flex:none;}
+  .semrow b{color:var(--text-1);}
+
+  .navpills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;}
+  .navpills a{text-decoration:none;font-size:13px;font-weight:600;color:var(--text-2);background:var(--surface);border:1px solid var(--border);padding:7px 14px;border-radius:999px;transition:.15s;}
+  .navpills a:hover{color:var(--brand-strong);border-color:var(--brand);}
+
+  /* ---------- Gallery of phones ---------- */
+  .gallery{display:flex;gap:34px;overflow-x:auto;padding:10px 4px 30px;scroll-snap-type:x proximity;}
+  .phone-col{scroll-snap-align:start;flex:none;display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .phone-col h2{font-size:14.5px;margin:0;font-weight:700;color:var(--text-1);}
+  .phone-col .cap{font-size:12px;color:var(--muted);text-align:center;max-width:320px;line-height:1.4;}
+
+  .phone{width:336px;background:#08070D;border-radius:46px;padding:12px;box-shadow:0 30px 60px -20px rgba(10,8,30,0.35), 0 4px 10px rgba(0,0,0,0.15);position:relative;}
+  .phone::before{content:"";position:absolute;top:26px;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#08070D;border-radius:14px;z-index:5;}
+  .screen{position:relative;background:var(--page);border-radius:36px;height:716px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;}
+  .screen::-webkit-scrollbar{display:none;}
+  .statusbar{display:flex;justify-content:space-between;align-items:center;padding:16px 24px 4px;font-size:12.5px;font-weight:700;color:var(--text-1);position:sticky;top:0;z-index:4;}
+  .statusbar .icons{display:flex;gap:5px;align-items:center;}
+
+  .content{padding:6px 16px 18px;}
+
+  /* ---------- shared UI atoms ---------- */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:15px;box-shadow:var(--shadow);}
+  .row{display:flex;align-items:center;}
+  .between{justify-content:space-between;}
+  .stack{display:flex;flex-direction:column;}
+  .gap6{gap:6px;} .gap8{gap:8px;} .gap10{gap:10px;} .gap12{gap:12px;} .gap14{gap:14px;} .gap16{gap:16px;}
+  .muted{color:var(--muted);}
+  .text2{color:var(--text-2);}
+  .small{font-size:12px;}
+  .tiny{font-size:11px;}
+  .bold{font-weight:700;}
+  .tabular{font-variant-numeric:tabular-nums;}
+  .h-title{font-size:19px;font-weight:800;letter-spacing:-0.01em;margin:2px 0 14px;}
+  .section-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:20px 2px 10px;}
+
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;}
+  .pill.good{background:var(--good-soft);color:var(--good);}
+  .pill.warn{background:var(--warn-soft);color:var(--warn);}
+  .pill.crit{background:var(--crit-soft);color:var(--crit);}
+  .pill.premium{background:var(--premium-soft);color:var(--premium-soft-text);}
+  .pill.brand{background:var(--brand-soft);color:var(--brand-soft-text);}
+
+  .btn{border:none;border-radius:14px;padding:14px 18px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:inherit;}
+  .btn.primary{background:var(--brand);color:#fff;}
+  .btn.ghost{background:transparent;color:var(--text-2);border:1.5px solid var(--border);}
+  .btn.premium{background:var(--premium);color:#00251F;}
+
+  .avatar-badge{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:21px;flex:none;}
+
+  .progress-track{height:9px;border-radius:99px;background:var(--grid);overflow:hidden;}
+  .progress-fill{height:100%;border-radius:99px;}
+
+  /* bottom nav */
+  .tabbar{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:10px 6px 22px;margin-top:20px;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--muted);}
+  .tab.active{color:var(--brand);}
+  .fab{width:50px;height:50px;border-radius:16px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin-top:-30px;box-shadow:0 10px 20px -6px rgba(91,79,233,0.55);}
+
+  /* dashboard summary cards */
+  .sumgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .sumcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px;box-shadow:var(--shadow);}
+
+  /* gauge card */
+  .gaugecard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;}
+  .gauge-svg{flex:none;}
+  .msg-band{border-radius:12px;padding:9px 11px;font-size:12.5px;line-height:1.4;font-weight:600;margin-top:9px;}
+  .msg-band.warn{background:var(--warn-soft);color:#8A5A05;}
+  .msg-band.crit{background:var(--crit-soft);color:#B92327;}
+  :root[data-theme="dark"] .msg-band.warn, @media (prefers-color-scheme: dark){ .msg-band.warn{color:#FBBF3F;} }
+
+  /* category grid (expense entry) */
+  .catgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .catchip{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 4px;border-radius:14px;border:2px solid transparent;}
+  .catchip.selected{border-color:var(--brand);background:var(--brand-soft);}
+  .catchip .avatar-badge{width:42px;height:42px;font-size:19px;}
+  .catchip span{font-size:11px;font-weight:600;color:var(--text-2);text-align:center;}
+  .catchip.selected span{color:var(--brand-strong);}
+
+  .acctchip{padding:9px 14px;border-radius:12px;border:1.5px solid var(--border);font-size:12.5px;font-weight:600;color:var(--text-2);}
+  .acctchip.selected{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-strong);}
+
+  .field{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--text-1);}
+  .amount-display{font-size:40px;font-weight:800;text-align:center;padding:20px 0 6px;letter-spacing:-0.02em;}
+
+  /* goal card */
+  .goalcard{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:16px;box-shadow:var(--shadow);}
+  .ring-wrap{position:relative;width:104px;height:104px;flex:none;}
+  .ring-wrap .ringlabel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring-wrap .ringlabel b{font-size:19px;font-weight:800;}
+  .ring-wrap .ringlabel span{font-size:10px;color:var(--muted);font-weight:600;}
+  .anim-ring{transition: stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1);}
+  .anim-bar{transition: width 1s cubic-bezier(.2,.8,.2,1);}
+
+  .locked-card{position:relative;border-radius:20px;overflow:hidden;}
+  .locked-card .blurlayer{filter:blur(3px) saturate(60%);opacity:.55;pointer-events:none;}
+  .locked-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg, rgba(16,15,25,0) 0%, rgba(16,15,25,0.55) 60%);}
+  :root:not([data-theme="dark"]) .locked-overlay{background:linear-gradient(180deg, rgba(247,246,251,0) 0%, rgba(247,246,251,0.85) 55%);}
+
+  /* redeem screen */
+  .codebox{display:flex;gap:8px;justify-content:center;margin:18px 0;}
+  .codebox .seg{width:40px;height:52px;border-radius:10px;background:var(--surface);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;font-family: ui-monospace, monospace;}
+  .codebox .seg.filled{border-color:var(--brand);color:var(--brand-strong);}
+  .benefit-row{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border);}
+  .benefit-row:last-child{border-bottom:none;}
+  .check{width:20px;height:20px;border-radius:50%;background:var(--good-soft);color:var(--good);display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;font-weight:800;}
+
+  /* onboarding */
+  .ob-illust{width:100%;height:210px;border-radius:22px;background:linear-gradient(160deg, var(--brand-soft), var(--premium-soft));display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+  .dots{display:flex;gap:6px;justify-content:center;margin:16px 0;}
+  .dots span{width:7px;height:7px;border-radius:50%;background:var(--border);}
+  .dots span.active{width:20px;background:var(--brand);}
+  .ob-mini{display:flex;gap:10px;margin-top:18px;}
+  .ob-mini .mini{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px;font-size:11px;color:var(--text-2);}
+  .ob-mini .mini b{display:block;font-size:12.5px;color:var(--text-1);margin-bottom:3px;}
+
+  .brandmark{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;}
+  .brandmark .logo{width:30px;height:30px;border-radius:9px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;}
+
+  footer.note{margin-top:10px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow);}
+  footer.note h3{margin:0 0 8px;font-size:15px;}
+  footer.note p{margin:0 0 8px;color:var(--text-2);font-size:13.5px;line-height:1.55;}
+  footer.note ul{margin:6px 0 0;padding-left:18px;color:var(--text-2);font-size:13.5px;line-height:1.7;}
+
+  @media (max-width:600px){
+    .wrap{padding:20px 12px 60px;}
+    .gallery{gap:20px;}
+  }
+</style>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="eyebrow">Wireframes · fintech personal &amp; familiar</span>
+    <h1>Bolsi — el compañero financiero</h1>
+    <p>Nombre provisorio (fácil de cambiar, es solo texto + logo). Estas son las 5 pantallas clave antes de construir la app completa: onboarding, dashboard, registro de gasto, metas y canje de código. Todo en alta fidelidad para que puedas dar feedback sobre colores, tono y jerarquía visual antes de tocar una línea de código funcional.</p>
+  </div>
+
+  <div class="legend-row">
+    <div class="legend-card">
+      <h3>Semáforo de presupuesto (estado)</h3>
+      <div class="semrow"><span class="dot" style="background:var(--good)"></span> <b>Verde</b>&nbsp;— 0–70% del presupuesto usado</div>
+      <div class="semrow"><span class="dot" style="background:var(--warn)"></span> <b>Amarillo</b>&nbsp;— 70–100%, alerta de precaución</div>
+      <div class="semrow"><span class="dot" style="background:var(--crit)"></span> <b>Rojo</b>&nbsp;— +100%, presupuesto superado</div>
+    </div>
+    <div class="legend-card">
+      <h3>Color por identidad vs. color por estado</h3>
+      <div class="text2 small" style="line-height:1.5;">Cada categoría tiene un color fijo (identidad, ej. Comida = naranja). El semáforo (verde/ámbar/rojo) es una capa aparte que vive en la barra de progreso, el aro del medidor y el borde de la tarjeta — nunca reemplaza el color del ícono. Así "Deudas" puede ser roja como categoría sin que el usuario piense que siempre está en alerta.</div>
+    </div>
+    <div class="legend-card">
+      <h3>Tono de los mensajes</h3>
+      <div class="text2 small" style="line-height:1.5;">El color puede ser contundente, el texto nunca es punitivo. Ej: fondo rojo + ícono de alerta, pero el mensaje dice <i>"Che, te pasaste del presupuesto en comida, ¿repasamos juntos?"</i> — nunca "Excediste el límite".</div>
+    </div>
+  </div>
+
+  <div class="navpills">
+    <a href="#ob">① Onboarding</a>
+    <a href="#dash">② Dashboard</a>
+    <a href="#gasto">③ Registrar gasto</a>
+    <a href="#metas">④ Metas de ahorro</a>
+    <a href="#canje">⑤ Canjear código</a>
+  </div>
+
+  <div class="gallery">
+
+    <!-- ============ 1. ONBOARDING ============ -->
+    <div class="phone-col" id="ob">
+      <h2>① Onboarding</h2>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span class="icons">●●●</span></div>
+        <div class="content" style="padding-top:34px;">
+          <div class="ob-illust">
+            <svg width="150" height="120" viewBox="0 0 150 120">
+              <circle cx="75" cy="58" r="46" fill="none" stroke="var(--grid)" stroke-width="12"/>
+              <circle cx="75" cy="58" r="46" fill="none" stroke="var(--good)" stroke-width="12" stroke-linecap="round"
+                stroke-dasharray="289" stroke-dashoffset="90" transform="rotate(-90 75 58)"/>
+              <text x="75" y="65" text-anchor="middle" font-size="26" font-weight="800" fill="var(--text-1)">68%</text>
+              <text x="75" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="var(--good)">VAS BIEN 👍</text>
+            </svg>
+          </div>
+          <h1 style="font-size:23px;margin:0 0 8px;text-wrap:balance;">Mirá tu plata de un vistazo</h1>
+          <p class="text2" style="font-size:14px;line-height:1.55;margin:0;">Verde, amarillo o rojo: vas a saber cómo estás con cada categoría sin abrir una sola planilla.</p>
+          <div class="dots"><span class="active"></span><span></span><span></span></div>
+          <div class="ob-mini">
+            <div class="mini"><b>① Bienvenida</b>Presentación de Bolsi y propuesta de valor.</div>
+            <div class="mini"><b>③ Metas</b>"Ponete objetivos y te ayudamos a llegar."</div>
+          </div>
+        </div>
+        <div style="position:sticky;bottom:0;background:var(--page);padding:14px 16px 26px;display:flex;flex-direction:column;gap:10px;">
+          <button class="btn primary">Comenzar</button>
+          <button class="btn ghost" style="padding:8px;">Ya tengo cuenta</button>
+        </div>
+      </div></div>
+      <div class="cap">Slide 2 de 3 — enseña el sistema de color desde el primer minuto. Cierra con registro por email o Google/Apple.</div>
+    </div>
+
+    <!-- ============ 2. DASHBOARD ============ -->
+    <div class="phone-col" id="dash">
+      <h2>② Dashboard principal</h2>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span class="icons">●●●</span></div>
+        <div class="content">
+          <div class="row between" style="margin:4px 0 16px;">
+            <div class="row gap10">
+              <div class="avatar-badge" style="background:var(--brand-soft);color:var(--brand-strong);">👋</div>
+              <div class="stack"><span class="small muted">Hola, Vale</span><b style="font-size:15px;">Julio 2026</b></div>
+            </div>
+            <span class="pill brand">✨ Premium</span>
+          </div>
+
+          <div class="card" style="background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border:none;">
+            <span class="small" style="opacity:.85;">Saldo disponible</span>
+            <div class="row between" style="align-items:flex-end;margin-top:4px;">
+              <b class="tabular" style="font-size:27px;">$ 285.000</b>
+              <span class="pill" style="background:rgba(255,255,255,0.2);color:#fff;">▲ 5% vs jun</span>
+            </div>
+          </div>
+
+          <div class="section-label">Evolución del saldo</div>
+          <div class="card">
+            <svg width="100%" height="140" viewBox="0 0 320 140" preserveAspectRatio="none">
+              <line x1="0" y1="35" x2="320" y2="35" stroke="var(--grid)" stroke-width="1"/>
+              <line x1="0" y1="70" x2="320" y2="70" stroke="var(--grid)" stroke-width="1"/>
+              <line x1="0" y1="105" x2="320" y2="105" stroke="var(--grid)" stroke-width="1"/>
+              <path d="M20,90.6 L76,61.8 L132,107.1 L188,49.4 L244,16.5 L300,28.8 L300,140 L20,140 Z" fill="var(--brand)" opacity="0.12"/>
+              <polyline points="20,90.6 76,61.8 132,107.1 188,49.4 244,16.5 300,28.8" fill="none" stroke="var(--brand)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="var(--brand)"><circle cx="20" cy="90.6" r="3"/><circle cx="76" cy="61.8" r="3"/><circle cx="132" cy="107.1" r="3"/><circle cx="188" cy="49.4" r="3"/><circle cx="244" cy="16.5" r="3"/></g>
+              <circle cx="300" cy="28.8" r="5" fill="var(--surface)" stroke="var(--brand)" stroke-width="2.5"/>
+              <text x="300" y="12" text-anchor="end" font-size="11" font-weight="800" fill="var(--brand-strong)">$285k</text>
+              <g font-size="9.5" fill="var(--muted)" font-weight="600">
+                <text x="20" y="134">Feb</text><text x="76" y="134">Mar</text><text x="132" y="134">Abr</text><text x="188" y="134">May</text><text x="244" y="134">Jun</text><text x="300" y="134" text-anchor="end">Jul</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="section-label">Gasto por categoría · este mes</div>
+          <div class="card row gap16" style="align-items:center;">
+            <svg width="140" height="140" viewBox="0 0 160 160" style="flex:none;">
+              <g transform="rotate(-90 80 80)">
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--cat-comida)" stroke-width="20" stroke-dasharray="140.7 299.1" stroke-dashoffset="0"><title>Comida 32% · $128.000</title></circle>
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--cat-transporte)" stroke-width="20" stroke-dasharray="79.2 360.6" stroke-dashoffset="-140.7"><title>Transporte 18% · $72.000</title></circle>
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--cat-entre)" stroke-width="20" stroke-dasharray="66.0 373.8" stroke-dashoffset="-219.9"><title>Entretenimiento 15% · $60.000</title></circle>
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--cat-salud)" stroke-width="20" stroke-dasharray="52.8 387.0" stroke-dashoffset="-285.9"><title>Salud 12% · $48.000</title></circle>
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--cat-ropa)" stroke-width="20" stroke-dasharray="44.0 395.8" stroke-dashoffset="-338.7"><title>Ropa 10% · $40.000</title></circle>
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--cat-inversion)" stroke-width="20" stroke-dasharray="35.2 404.6" stroke-dashoffset="-382.6"><title>Inversión 8% · $32.000</title></circle>
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--cat-otros)" stroke-width="20" stroke-dasharray="22.0 417.8" stroke-dashoffset="-417.8"><title>Otros 5% · $20.000</title></circle>
+              </g>
+              <text x="80" y="76" text-anchor="middle" font-size="18" font-weight="800" fill="var(--text-1)">$400k</text>
+              <text x="80" y="92" text-anchor="middle" font-size="10" font-weight="600" fill="var(--muted)">gastado</text>
+            </svg>
+            <div class="stack gap8" style="flex:1;">
+              <div class="row between small"><span class="row gap6"><span class="dot" style="background:var(--cat-comida)"></span>Comida</span><b>32%</b></div>
+              <div class="row between small"><span class="row gap6"><span class="dot" style="background:var(--cat-transporte)"></span>Transporte</span><b>18%</b></div>
+              <div class="row between small"><span class="row gap6"><span class="dot" style="background:var(--cat-entre)"></span>Entretenim.</span><b>15%</b></div>
+              <div class="row between small text2"><span class="row gap6"><span class="dot" style="background:var(--cat-salud)"></span>+4 más</span><b>35%</b></div>
+            </div>
+          </div>
+
+          <div class="section-label">Últimos 6 meses</div>
+          <div class="card">
+            <svg width="100%" height="150" viewBox="0 0 320 150" preserveAspectRatio="none">
+              <line x1="0" y1="10" x2="320" y2="10" stroke="var(--grid)"/>
+              <g font-size="9" fill="var(--muted)" font-weight="700" text-anchor="middle">
+                <text x="30" y="8">340k</text>
+              </g>
+              <rect x="10" y="21" width="30" height="119" rx="6" fill="var(--cat-transporte)" opacity="0.35"><title>Feb · $340.000</title></rect>
+              <rect x="58" y="12.25" width="30" height="127.75" rx="6" fill="var(--cat-transporte)" opacity="0.35"><title>Mar · $365.000</title></rect>
+              <rect x="106" y="31.5" width="30" height="108.5" rx="6" fill="var(--cat-transporte)" opacity="0.35"><title>Abr · $310.000</title></rect>
+              <rect x="154" y="3.5" width="30" height="136.5" rx="6" fill="var(--cat-transporte)" opacity="0.35"><title>May · $390.000</title></rect>
+              <rect x="202" y="15.75" width="30" height="124.25" rx="6" fill="var(--cat-transporte)" opacity="0.35"><title>Jun · $355.000</title></rect>
+              <rect x="250" y="0" width="30" height="140" rx="6" fill="var(--brand)"><title>Jul · $400.000 (mes actual)</title></rect>
+              <text x="265" y="-6" text-anchor="middle" font-size="9" font-weight="800" fill="var(--brand-strong)" transform="translate(0,14)">hoy</text>
+              <g font-size="10" fill="var(--muted)" font-weight="600">
+                <text x="25" y="148">Feb</text><text x="73" y="148">Mar</text><text x="121" y="148">Abr</text><text x="169" y="148">May</text><text x="217" y="148">Jun</text><text x="265" y="148" fill="var(--brand-strong)" font-weight="800">Jul</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="section-label">Presupuesto por categoría</div>
+          <div class="stack gap10">
+            <div class="gaugecard">
+              <svg class="gauge-svg" width="92" height="60" viewBox="0 0 120 68">
+                <path d="M8,60 A52,52 0 0 1 112,60" fill="none" stroke="var(--grid)" stroke-width="13" stroke-linecap="round"/>
+                <path d="M8,60 A52,52 0 0 1 112,60" fill="none" stroke="var(--good)" stroke-width="13" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="89.9"/>
+                <text x="60" y="52" text-anchor="middle" font-size="19" font-weight="800" fill="var(--good)">45%</text>
+              </svg>
+              <div class="stack gap6" style="flex:1;">
+                <div class="row between"><span class="row gap8"><span class="avatar-badge" style="width:30px;height:30px;font-size:14px;background:var(--cat-transporte)22;">🚗</span><b class="small">Transporte</b></span><span class="pill good">Verde</span></div>
+                <span class="tiny text2">$45.000 de $100.000 · vas tranquilo este mes.</span>
+              </div>
+            </div>
+            <div class="gaugecard">
+              <svg class="gauge-svg" width="92" height="60" viewBox="0 0 120 68">
+                <path d="M8,60 A52,52 0 0 1 112,60" fill="none" stroke="var(--grid)" stroke-width="13" stroke-linecap="round"/>
+                <path d="M8,60 A52,52 0 0 1 112,60" fill="none" stroke="var(--warn)" stroke-width="13" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="23.3"/>
+                <text x="60" y="52" text-anchor="middle" font-size="19" font-weight="800" fill="var(--warn)">86%</text>
+              </svg>
+              <div class="stack gap6" style="flex:1;">
+                <div class="row between"><span class="row gap8"><span class="avatar-badge" style="width:30px;height:30px;font-size:14px;">🎬</span><b class="small">Entretenim.</b></span><span class="pill warn">Amarillo</span></div>
+                <span class="tiny text2">Che, ya usaste el 86% de entretenimiento. Todavía te queda un poco.</span>
+              </div>
+            </div>
+            <div class="gaugecard" style="border-color:var(--crit);">
+              <svg class="gauge-svg" width="92" height="60" viewBox="0 0 120 68">
+                <path d="M8,60 A52,52 0 0 1 112,60" fill="none" stroke="var(--grid)" stroke-width="13" stroke-linecap="round"/>
+                <path d="M8,60 A52,52 0 0 1 112,60" fill="none" stroke="var(--crit)" stroke-width="13" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="0"/>
+                <text x="60" y="52" text-anchor="middle" font-size="17" font-weight="800" fill="var(--crit)">116%</text>
+              </svg>
+              <div class="stack gap6" style="flex:1;">
+                <div class="row between"><span class="row gap8"><span class="avatar-badge" style="width:30px;height:30px;font-size:14px;">🍔</span><b class="small">Comida</b></span><span class="pill crit">Rojo</span></div>
+                <span class="tiny text2">Che, te pasaste del presupuesto en comida, ¿repasamos juntos? 💬</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab active"><span>🏠</span>Inicio</div>
+          <div class="tab"><span>📊</span>Reportes</div>
+          <div class="fab">＋</div>
+          <div class="tab"><span>🎯</span>Metas</div>
+          <div class="tab"><span>👤</span>Perfil</div>
+        </div>
+      </div></div>
+      <div class="cap">Gráfico de dona + barras + línea + medidores semáforo, todo arriba del pliegue posible gracias al scroll. El color de categoría (identidad) nunca cambia; el semáforo vive en el aro y el borde de la tarjeta.</div>
+    </div>
+
+    <!-- ============ 3. REGISTRAR GASTO ============ -->
+    <div class="phone-col" id="gasto">
+      <h2>③ Registrar gasto</h2>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span class="icons">●●●</span></div>
+        <div class="content">
+          <div class="row between" style="margin-bottom:6px;">
+            <span style="font-size:20px;">✕</span>
+            <b style="font-size:15px;">Nuevo movimiento</b>
+            <span style="width:20px;"></span>
+          </div>
+
+          <div class="row" style="background:var(--surface-2);border-radius:14px;padding:4px;margin:12px 0;">
+            <div class="btn" style="background:var(--crit-soft);color:var(--crit);width:50%;padding:9px;border-radius:11px;text-align:center;">Gasto</div>
+            <div class="text2" style="width:50%;padding:9px;text-align:center;font-weight:700;font-size:14px;">Ingreso</div>
+          </div>
+
+          <div class="amount-display tabular">$ 12.500</div>
+          <p class="text2 small" style="text-align:center;margin-top:-6px;">Almuerzo con el equipo</p>
+
+          <div class="section-label">Categoría</div>
+          <div class="catgrid">
+            <div class="catchip selected"><div class="avatar-badge" style="background:var(--cat-comida);color:#fff;">🍔</div><span>Comida</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--cat-ropa);color:#fff;">👕</div><span>Ropa</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--cat-calzado);color:#fff;">👟</div><span>Calzado</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--cat-transporte);color:#fff;">🚗</div><span>Transporte</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--cat-salud);color:#fff;">➕</div><span>Salud</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--cat-entre);color:#fff;">🎬</div><span>Entreten.</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--cat-inversion);color:#fff;">📈</div><span>Inversión</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--cat-deudas);color:#fff;">💳</div><span>Deudas</span></div>
+            <div class="catchip"><div class="avatar-badge" style="background:var(--surface-2);color:var(--brand);border:1.5px dashed var(--border);">＋</div><span>Crear</span></div>
+          </div>
+
+          <div class="section-label">Cuenta / billetera</div>
+          <div class="row gap8" style="flex-wrap:wrap;">
+            <div class="acctchip">💵 Efectivo</div>
+            <div class="acctchip selected">💳 Tarjeta ···4521</div>
+            <div class="acctchip">🏦 Cta. bancaria</div>
+          </div>
+
+          <div class="section-label">Fecha</div>
+          <div class="field row between"><span>Hoy, 19 jul 2026</span><span class="muted">📅</span></div>
+
+          <div class="section-label">Nota (opcional)</div>
+          <div class="field text2">Almuerzo con el equipo</div>
+        </div>
+        <div style="position:sticky;bottom:0;background:var(--page);padding:14px 16px 26px;">
+          <button class="btn primary">Guardar gasto</button>
+        </div>
+      </div></div>
+      <div class="cap">Carga rápida: monto grande y legible, categorías con ícono + color propio, selector de cuenta tipo chip. Plan free limita a 1 cuenta y categorías predefinidas.</div>
+    </div>
+
+    <!-- ============ 4. METAS ============ -->
+    <div class="phone-col" id="metas">
+      <h2>④ Metas de ahorro</h2>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span class="icons">●●●</span></div>
+        <div class="content">
+          <div class="h-title">Tus metas 🎯</div>
+
+          <div class="goalcard row gap14">
+            <div class="ring-wrap">
+              <svg width="104" height="104" viewBox="0 0 104 104">
+                <circle cx="52" cy="52" r="45" fill="none" stroke="var(--grid)" stroke-width="10"/>
+                <circle class="anim-ring" cx="52" cy="52" r="45" fill="none" stroke="var(--premium)" stroke-width="10" stroke-linecap="round"
+                  stroke-dasharray="282.7" stroke-dashoffset="124.4" transform="rotate(-90 52 52)"/>
+              </svg>
+              <div class="ringlabel"><b>56%</b><span>alcanzado</span></div>
+            </div>
+            <div class="stack gap6" style="flex:1;">
+              <b style="font-size:15px;">✈️ Viaje a Bariloche</b>
+              <span class="small text2 tabular">$450.000 <span class="muted">de $800.000</span></span>
+              <span class="tiny muted">Estimado: diciembre 2026</span>
+              <span class="pill brand" style="align-self:flex-start;">En camino</span>
+            </div>
+          </div>
+
+          <div class="section-label">Proyección al objetivo</div>
+          <div class="card">
+            <svg width="100%" height="120" viewBox="0 0 320 120" preserveAspectRatio="none">
+              <line x1="0" y1="10" x2="320" y2="10" stroke="var(--grid)"/>
+              <line x1="0" y1="60" x2="320" y2="60" stroke="var(--grid)"/>
+              <path d="M10,105 L100,80 L190,58 L320,10" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>
+              <path d="M10,105 L100,86 L190,66" fill="none" stroke="var(--premium)" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="190" cy="66" r="5" fill="var(--premium)"/>
+              <text x="190" y="52" text-anchor="middle" font-size="10" font-weight="800" fill="var(--premium-soft-text)">hoy · 56%</text>
+              <text x="320" y="26" text-anchor="end" font-size="10" font-weight="700" fill="var(--muted)">meta · dic</text>
+            </svg>
+          </div>
+
+          <div class="section-label">Casi lo lográs</div>
+          <div class="goalcard row gap14" style="background:var(--good-soft);border-color:transparent;">
+            <div class="ring-wrap" style="width:76px;height:76px;">
+              <svg width="76" height="76" viewBox="0 0 104 104">
+                <circle cx="52" cy="52" r="45" fill="none" stroke="rgba(23,163,74,0.18)" stroke-width="10"/>
+                <circle class="anim-ring" cx="52" cy="52" r="45" fill="none" stroke="var(--good)" stroke-width="10" stroke-linecap="round"
+                  stroke-dasharray="282.7" stroke-dashoffset="28.3" transform="rotate(-90 52 52)"/>
+              </svg>
+              <div class="ringlabel"><b style="font-size:15px;color:var(--good);">90%</b></div>
+            </div>
+            <div class="stack gap6">
+              <b style="font-size:14px;">🛟 Fondo de emergencia</b>
+              <span class="small" style="color:var(--good);font-weight:700;">¡Estás cerca, un empujón más! 🎉</span>
+            </div>
+          </div>
+
+          <div class="section-label">Bloqueado en el plan gratuito</div>
+          <div class="locked-card">
+            <div class="goalcard row gap14 blurlayer">
+              <div class="avatar-badge" style="width:76px;height:76px;font-size:30px;background:var(--surface-2);">🚗</div>
+              <div class="stack gap6"><b style="font-size:14px;">Auto nuevo</b><span class="small text2">$120.000 de $3.000.000</span></div>
+            </div>
+            <div class="locked-overlay">
+              <span class="pill premium">✨ Premium</span>
+              <b class="small" style="text-align:center;padding:0 20px;">Metas ilimitadas con Premium</b>
+              <button class="btn premium" style="width:auto;padding:8px 18px;font-size:12.5px;">Desbloquear</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab"><span>🏠</span>Inicio</div>
+          <div class="tab"><span>📊</span>Reportes</div>
+          <div class="fab">＋</div>
+          <div class="tab active"><span>🎯</span>Metas</div>
+          <div class="tab"><span>👤</span>Perfil</div>
+        </div>
+      </div></div>
+      <div class="cap">Anillo de progreso animado (crece al cargar), gráfico de proyección real vs. plan, y estado de hito con celebración en verde. Plan free: 1 meta activa; el resto queda "gateado" con blur + CTA a Premium.</div>
+    </div>
+
+    <!-- ============ 5. CANJEAR CÓDIGO ============ -->
+    <div class="phone-col" id="canje">
+      <h2>⑤ Canjear código</h2>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span class="icons">●●●</span></div>
+        <div class="content" style="padding-top:20px;">
+          <div class="row between" style="margin-bottom:18px;"><span style="font-size:20px;">←</span><b style="font-size:15px;">Canjear código</b><span style="width:20px;"></span></div>
+
+          <div style="text-align:center;margin-bottom:8px;">
+            <div class="avatar-badge" style="width:64px;height:64px;font-size:30px;background:var(--premium-soft);color:var(--premium-soft-text);margin:0 auto 12px;">🎁</div>
+            <b style="font-size:17px;">¿Tenés un código de acceso?</b>
+            <p class="text2 small" style="margin-top:6px;">Canjealo acá y activá Premium sin pagar, por el tiempo que indique tu código.</p>
+          </div>
+
+          <div class="codebox">
+            <div class="seg filled">B</div><div class="seg filled">O</div><div class="seg filled">L</div><div class="seg filled">7</div><div class="seg">·</div><div class="seg">·</div><div class="seg">·</div><div class="seg">·</div>
+          </div>
+          <button class="btn primary" style="margin-top:6px;">Canjear código</button>
+
+          <div class="card" style="margin-top:26px;border-color:var(--good);background:var(--good-soft);">
+            <div class="row gap10" style="margin-bottom:10px;"><span class="pill good">✓ Activado</span></div>
+            <b style="font-size:16px;">¡Listo! Premium activado 🎉</b>
+            <p class="small text2" style="margin:6px 0 0;">Válido hasta el <b class="text-1">19 de enero de 2027</b> (6 meses). Código: <span class="tabular">BOL7-9K3X</span></p>
+          </div>
+
+          <div class="section-label">Esto desbloqueaste</div>
+          <div class="card">
+            <div class="benefit-row"><span class="check">✓</span><div class="stack"><b class="small">Cuentas ilimitadas</b><span class="tiny muted">Efectivo, tarjetas y bancos sin límite</span></div></div>
+            <div class="benefit-row"><span class="check">✓</span><div class="stack"><b class="small">Categorías personalizadas</b><span class="tiny muted">Con ícono y color a tu elección</span></div></div>
+            <div class="benefit-row"><span class="check">✓</span><div class="stack"><b class="small">Metas ilimitadas</b><span class="tiny muted">Sin el tope de 1 meta activa</span></div></div>
+            <div class="benefit-row"><span class="check">✓</span><div class="stack"><b class="small">Alertas predictivas + históricos</b><span class="tiny muted">Comparativas y exportables</span></div></div>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap">Estado vacío → código completo → confirmación verde con fecha exacta de vencimiento del beneficio. El canje queda registrado server-side (código, usuario, fecha) para el panel de administración.</div>
+    </div>
+
+  </div>
+
+  <footer class="note">
+    <h3>Decisiones de diseño a confirmar antes de construir la app completa</h3>
+    <p>No llegaron archivos adjuntos a este mensaje (el repositorio y el scratchpad de la sesión están vacíos) — arranqué el diseño desde cero con las mejores prácticas de fintech y tu especificación. Si me compartís los archivos por otro medio (repo, imágenes, Figma), los tomo y ajusto esta base.</p>
+    <ul>
+      <li><b>Nombre "Bolsi"</b>: placeholder fácil de reemplazar en toda la app (es un token de texto + un ícono de logo).</li>
+      <li><b>Semáforo reservado para estado</b>: verde/ámbar/rojo solo se usan para presupuesto, nunca como color de categoría, para que no se mezclen los significados.</li>
+      <li><b>Paleta por categoría</b>: 8 colores fijos + "Otros" en gris, validados para que cada par adyacente se distinga incluso con daltonismo.</li>
+      <li><b>Freemium</b>: metas/categorías extra se muestran "gateadas" (blur + CTA) en vez de ocultarse, para que el usuario vea el valor de Premium.</li>
+    </ul>
+    <p>Con tu OK sobre estas pantallas, sigo con la arquitectura técnica (React Native + backend, esquema de datos, Stripe, panel de administración de códigos) y empiezo a construir.</p>
+  </footer>
+</div>
