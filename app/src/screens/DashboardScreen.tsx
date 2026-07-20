@@ -1,5 +1,6 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../api/client";
@@ -38,6 +39,14 @@ export default function DashboardScreen({ navigation }: Props) {
   const onRefresh = useCallback(() => {
     reload();
   }, [reload]);
+
+  // Re-fetch every time the tab regains focus, so a transaction/goal added
+  // elsewhere shows up immediately instead of only after a manual pull-to-refresh.
+  useFocusEffect(
+    useCallback(() => {
+      reload();
+    }, [reload]),
+  );
 
   const monthLabel = new Date().toLocaleDateString("es-AR", { month: "long", year: "numeric" });
 

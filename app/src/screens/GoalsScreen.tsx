@@ -1,7 +1,8 @@
 import type { CompositeScreenProps } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api, apiErrorMessage } from "../api/client";
@@ -24,6 +25,12 @@ export default function GoalsScreen({ navigation }: Props) {
   const { colors } = useTheme();
   const { data: goals, reload } = useFetch(loadGoals, []);
   const [showCreate, setShowCreate] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      reload();
+    }, [reload]),
+  );
 
   const active = (goals ?? []).filter((g) => g.status === "ACTIVE" && !g.locked);
   const locked = (goals ?? []).filter((g) => g.locked);
