@@ -1,0 +1,206 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+  APPLE
+}
+
+enum Plan {
+  FREE
+  PREMIUM
+}
+
+enum AccountType {
+  CASH
+  CARD
+  BANK
+}
+
+enum CategoryKind {
+  EXPENSE
+  INCOME
+  BOTH
+}
+
+/// Classification used by the coaching engine to apply the 50/30/20 rule
+/// (needs / wants / savings-and-debt-repayment).
+enum SpendGroup {
+  NEEDS
+  WANTS
+  SAVINGS
+}
+
+enum TxType {
+  EXPENSE
+  INCOME
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+}
+
+enum CodeDuration {
+  DAYS_30
+  MONTHS_6
+  LIFETIME
+}
+
+model User {
+  id              String        @id @default(cuid())
+  email           String        @unique
+  passwordHash    String?
+  name            String
+  avatarEmoji     String        @default("🙂")
+  authProvider    AuthProvider  @default(EMAIL)
+  googleId        String?       @unique
+  appleId         String?       @unique
+  isAdmin         Boolean       @default(false)
+
+  plan            Plan          @default(FREE)
+  premiumUntil    DateTime?
+  premiumLifetime Boolean       @default(false)
+
+  /// Manual fallback used by the coaching engine (50/30/20, savings rate) when the
+  /// user hasn't logged enough INCOME transactions for a given month.
+  estimatedMonthlyIncome Decimal? @db.Decimal(14, 2)
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  accounts        Account[]
+  categories      Category[]
+  transactions    Transaction[]
+  budgets         Budget[]
+  goals           Goal[]
+  subscription    Subscription?
+  redeemedCodes   RedemptionCode[] @relation("RedeemedBy")
+}
+
+model Account {
+  id           String        @id @default(cuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  type         AccountType   @default(CASH)
+  icon         String        @default("💵")
+  color        String        @default("#5B4FE9")
+  archived     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+
+  transactions Transaction[]
+
+  @@index([userId])
+}
+
+model Category {
+  id           String        @id @default(cuid())
+  userId       String?
+  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  icon         String        @default("🔖")
+  color        String        @default("#8B899B")
+  kind         CategoryKind  @default(EXPENSE)
+  group        SpendGroup    @default(WANTS)
+  isDefault    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+
+  transactions Transaction[]
+  budgets      Budget[]
+
+  @@index([userId])
+}
+
+model Transaction {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId  String
+  account    Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category  @relation(fields: [categoryId], references: [id])
+  type       TxType
+  amount     Decimal   @db.Decimal(14, 2)
+  note       String?
+  date       DateTime  @default(now())
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, date])
+  @@index([accountId])
+  @@index([categoryId])
+}
+
+model Budget {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  monthlyLimit Decimal   @db.Decimal(14, 2)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([userId, categoryId])
+}
+
+model Goal {
+  id             String     @id @default(cuid())
+  userId         String
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  icon           String     @default("🎯")
+  targetAmount   Decimal    @db.Decimal(14, 2)
+  currentAmount  Decimal    @db.Decimal(14, 2) @default(0)
+  targetDate     DateTime?
+  status         GoalStatus @default(ACTIVE)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  contributions  GoalContribution[]
+
+  @@index([userId])
+}
+
+model GoalContribution {
+  id        String   @id @default(cuid())
+  goalId    String
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  amount    Decimal  @db.Decimal(14, 2)
+  date      DateTime @default(now())
+  note      String?
+
+  @@index([goalId])
+}
+
+model Subscription {
+  id                   String    @id @default(cuid())
+  userId               String    @unique
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  status               String?
+  plan                 String?
+  currentPeriodEnd     DateTime?
+  updatedAt            DateTime  @updatedAt
+}
+
+model RedemptionCode {
+  id            String        @id @default(cuid())
+  code          String        @unique
+  duration      CodeDuration
+  note          String?
+  createdByName String        @default("admin")
+  used          Boolean       @default(false)
+  usedByUserId  String?
+  usedByUser    User?         @relation("RedeemedBy", fields: [usedByUserId], references: [id])
+  usedAt        DateTime?
+  createdAt     DateTime      @default(now())
+}

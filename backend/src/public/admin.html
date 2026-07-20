@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MisCuentas · Admin</title>
+<style>
+  :root {
+    --brand: #5B4FE9; --bg: #F7F6FB; --surface: #fff; --text: #16151F; --muted: #6b6a7a;
+    --border: rgba(22,21,31,0.12); --good: #17A34A; --warn: #F59E0B;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.sub { color: var(--muted); margin: 0 0 24px; font-size: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+  label { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); margin: 12px 0 5px; }
+  input, select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); font-size: 14px; font-family: inherit; }
+  button { background: var(--brand); color: #fff; border: none; padding: 11px 18px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 14px; }
+  button.secondary { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 11.5px; text-transform: uppercase; }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
+  .pill.used { background: #FDE7E7; color: #B92327; }
+  .pill.free { background: #E6F7ED; color: var(--good); }
+  .error { color: #B92327; font-size: 13px; margin-top: 10px; }
+  .mono { font-family: ui-monospace, monospace; }
+  #app-view { display: none; }
+  .row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 140px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>MisCuentas · Panel de administración</h1>
+  <p class="sub">Generá códigos de acceso Premium gratuito y revisá quién los usó.</p>
+
+  <div id="login-view" class="card">
+    <label>Email</label>
+    <input id="login-email" type="email" placeholder="admin@miscuentas.app" />
+    <label>Contraseña</label>
+    <input id="login-password" type="password" />
+    <button onclick="login()">Ingresar</button>
+    <div id="login-error" class="error"></div>
+  </div>
+
+  <div id="app-view">
+    <div class="card">
+      <div class="row">
+        <div>
+          <label>Duración del beneficio</label>
+          <select id="duration">
+            <option value="DAYS_30">30 días</option>
+            <option value="MONTHS_6">6 meses</option>
+            <option value="LIFETIME">De por vida</option>
+          </select>
+        </div>
+        <div>
+          <label>Cantidad</label>
+          <input id="count" type="number" min="1" max="100" value="1" />
+        </div>
+        <div>
+          <label>Nota (opcional)</label>
+          <input id="note" type="text" placeholder="ej: sorteo Instagram" />
+        </div>
+      </div>
+      <button onclick="generate()">Generar código(s)</button>
+      <button class="secondary" onclick="logout()">Cerrar sesión</button>
+      <div id="gen-error" class="error"></div>
+    </div>
+
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>Código</th><th>Duración</th><th>Estado</th><th>Usado por</th><th>Fecha de canje</th><th>Nota</th></tr>
+        </thead>
+        <tbody id="codes-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = window.location.origin;
+  const DURATION_LABEL = { DAYS_30: "30 días", MONTHS_6: "6 meses", LIFETIME: "De por vida" };
+  let token = localStorage.getItem("mc_admin_token") || "";
+
+  function show(view) {
+    document.getElementById("login-view").style.display = view === "login" ? "block" : "none";
+    document.getElementById("app-view").style.display = view === "app" ? "block" : "none";
+  }
+
+  async function login() {
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    const errEl = document.getElementById("login-error");
+    errEl.textContent = "";
+    try {
+      const r = await fetch(`${API}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await r.json();
+      if (!r.ok) { errEl.textContent = data.error || "No se pudo iniciar sesión"; return; }
+      if (!data.user.isAdmin) { errEl.textContent = "Esta cuenta no tiene permisos de administrador."; return; }
+      token = data.token;
+      localStorage.setItem("mc_admin_token", token);
+      show("app");
+      loadCodes();
+    } catch (e) {
+      errEl.textContent = "No se pudo conectar con el servidor.";
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("mc_admin_token");
+    token = "";
+    show("login");
+  }
+
+  async function generate() {
+    const duration = document.getElementById("duration").value;
+    const count = Number(document.getElementById("count").value || 1);
+    const note = document.getElementById("note").value.trim();
+    const errEl = document.getElementById("gen-error");
+    errEl.textContent = "";
+    try {
+      const r = await fetch(`${API}/api/codes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ duration, count, note: note || undefined }),
+      });
+      const data = await r.json();
+      if (!r.ok) { errEl.textContent = data.error || "No se pudo generar el código"; return; }
+      loadCodes();
+    } catch (e) {
+      errEl.textContent = "No se pudo conectar con el servidor.";
+    }
+  }
+
+  async function loadCodes() {
+    const r = await fetch(`${API}/api/codes`, { headers: { Authorization: `Bearer ${token}` } });
+    if (r.status === 401 || r.status === 403) { logout(); return; }
+    const data = await r.json();
+    const body = document.getElementById("codes-body");
+    body.innerHTML = "";
+    for (const c of data.codes) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="mono">${c.code}</td>
+        <td>${DURATION_LABEL[c.duration] || c.duration}</td>
+        <td><span class="pill ${c.used ? "used" : "free"}">${c.used ? "Usado" : "Disponible"}</span></td>
+        <td>${c.usedByUser ? `${c.usedByUser.name} (${c.usedByUser.email})` : "—"}</td>
+        <td>${c.usedAt ? new Date(c.usedAt).toLocaleString("es-AR") : "—"}</td>
+        <td>${c.note || ""}</td>
+      `;
+      body.appendChild(tr);
+    }
+  }
+
+  if (token) { show("app"); loadCodes(); } else { show("login"); }
+</script>
+</body>
+</html>
